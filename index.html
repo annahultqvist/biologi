@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Edgars plugg</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#F1F0EC;--paper:#FFFFFF;--ink:#1D2B3A;--soft:#5A6878;--line:#DDDAD3;--a:#2F8A5E;--b:#3566B8}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#161E26;--paper:#1F2933;--ink:#E9EFF4;--soft:#AAB8C5;--line:#33414E;--a:#5CC08F;--b:#7FA6E8}}
+:root[data-theme="dark"]{--bg:#161E26;--paper:#1F2933;--ink:#E9EFF4;--soft:#AAB8C5;--line:#33414E;--a:#5CC08F;--b:#7FA6E8}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Lexend",Verdana,"Segoe UI",sans-serif;line-height:1.5}
+.wrap{max-width:40rem;margin:0 auto;padding:3rem 1.2rem}
+h1{font-size:2.6rem;margin:0 0 .4rem}
+.lead{color:var(--soft);font-size:1.25rem;margin:0 0 2rem}
+a.card{display:flex;align-items:center;gap:1.2rem;text-decoration:none;color:inherit;background:var(--paper);border:3px solid var(--line);
+  border-left:12px solid var(--c);border-radius:22px;padding:1.4rem 1.5rem;margin-bottom:1.4rem}
+a.card:hover,a.card:focus-visible{border-color:var(--c)}
+a.card:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.ico{font-size:2.8rem;flex:none}
+.txt{flex:1}
+.txt b{display:block;font-size:1.45rem}
+.txt span{color:var(--soft);font-size:1.05rem}
+.badge{display:inline-block;margin-top:.4rem;font-size:.9rem;font-weight:500;background:var(--c);color:#fff;border-radius:999px;padding:.1rem .7rem}
+.pct{font-size:1.6rem;font-weight:700;color:var(--c);flex:none}
+.tip{border:2px dashed var(--line);border-radius:16px;padding:1rem 1.2rem;background:var(--paper);font-size:1.05rem}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .badge{color:#161E26}}
+:root[data-theme="dark"] .badge{color:#161E26}
+@media (max-width:480px){h1{font-size:2rem}.ico{font-size:2.2rem}.txt b{font-size:1.2rem}a.card{gap:.9rem;padding:1.1rem}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Hej Edgar! 👋</h1>
+  <p class="lead">Välj vad du vill plugga idag. Ett pass i taget räcker.</p>
+
+  <a class="card" href="prov2.html" style="--c:var(--a)">
+    <span class="ico" aria-hidden="true">🧬</span>
+    <span class="txt"><b>Biologi – Prov 2</b><span>Genetik: DNA, celldelning, mutationer och nedärvning</span><br><span class="badge" id="nedr">Prov fredag 20/11</span></span>
+    <span class="pct" id="p2">0 %</span>
+  </a>
+
+  <a class="card" href="genetik.html" style="--c:var(--b)">
+    <span class="ico" aria-hidden="true">🔬</span>
+    <span class="txt"><b>Biologi – Genetik och kroppen</b><span>Första studiesidan, sparad till kommande prov</span></span>
+    <span class="pct" id="p1">0 %</span>
+  </a>
+
+  <div class="tip">Tips: tryck på dela-knappen i Safari och välj <b>Lägg till på hemskärmen</b>, så får du en egen ikon.</div>
+</div>
+<script>
+function pct(key, total) {
+  try {
+    const s = JSON.parse(localStorage.getItem(key) || '{}');
+    const ck = s.ck || {};
+    const done = Object.keys(ck).filter(k => k.startsWith('done-') && ck[k]).length;
+    return Math.min(100, Math.round(done / total * 100));
+  } catch (e) { return 0; }
+}
+document.getElementById('p2').textContent = pct('edgar-prov2-v3', 11) + ' %';
+document.getElementById('p1').textContent = pct('edgar-genetik-v2', 15) + ' %';
+const exam = new Date(2026, 10, 20, 8, 20), d = Math.ceil((exam - new Date()) / 864e5);
+const n = document.getElementById('nedr');
+if (d > 1) n.textContent = 'Prov om ' + d + ' dagar';
+else if (d === 1) n.textContent = 'Prov i morgon!';
+else if (d === 0) n.textContent = 'Prov idag – lycka till!';
+else n.textContent = 'Provet är gjort';
+</script>
+</body>
+</html>
